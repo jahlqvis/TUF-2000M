@@ -5,12 +5,30 @@ using System.Threading.Tasks;
 
 namespace TUF_2000M
 {
-    public static class Reader
+    public class Reader
     {
-        static StreamReader URLStream(String fileurl)
+        private StreamReader _sr;
+
+        public bool ReadURL(string url)
+        {
+            try
+            {
+                _sr = URLStream(url);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
+
+        }
+
+        private StreamReader URLStream(String fileurl)
         {
             return new StreamReader(new HttpClient().GetStreamAsync(fileurl).Result);
         }
+
+
     }
     
 }
