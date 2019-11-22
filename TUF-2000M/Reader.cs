@@ -41,10 +41,10 @@ namespace TUF_2000M
         public string GetLine(int lineNr)
         {
             if (_buffer.Length == 0)
-                return string.Empty; // todo: needs to be better handled
+                throw new IOException("text buffer read from server is empty");
 
             if (lineNr < 1 || lineNr > _buffer.Length)
-                return string.Empty; // todo: needs to be better handled
+                throw new IOException($"lineNr {lineNr} is out of buffer boundary");
 
             return _buffer[lineNr-1];
         }
