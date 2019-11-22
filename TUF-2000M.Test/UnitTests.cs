@@ -43,5 +43,17 @@ namespace TUF_2000M.Test
 
             Assert.AreEqual(expected, str);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.IO.IOException),
+            "The line number was beyond EOF")]
+        public void TestReadUrlAndLineAfterEOF()
+        {
+            Reader r = new Reader();
+            bool result = false;
+            result = r.ReadURL("http://tuftuf.gambitlabs.fi/feed.txt");
+            string str = r.GetLine(105);
+        }
+
     }
 }

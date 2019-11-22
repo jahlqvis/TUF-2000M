@@ -1,19 +1,29 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
-
+using System.Collections.Generic;
 namespace TUF_2000M
 {
     public class Reader
     {
         private StreamReader _sr;
+        private string[] _buffer;
 
         public bool ReadURL(string url)
         {
+            List<string> stringList = new List<string>();
+
             try
             {
                 _sr = URLStream(url);
+
+                while (_sr.EndOfStream == false)
+                {
+                    stringList.Add(_sr.ReadLine());
+                }
+                _sr.Close();
+
+                _buffer = stringList.ToArray();
             }
             catch (Exception ex)
             {
@@ -30,26 +40,13 @@ namespace TUF_2000M
 
         public string GetLine(int lineNr)
         {
-            string str = string.Empty;
+            if (_buffer.Length == 0)
+                return string.Empty; // todo: needs to be better handled
 
-            if (_sr == StreamReader.Null)
-                return str;
+            if (lineNr < 1 || lineNr > _buffer.Length)
+                return string.Empty; // todo: needs to be better handled
 
-            try
-            {
-                for(int i=0;i<lineNr;i++)
-                    str = _sr.ReadLine();
-            }
-            catch (IOException e)
-            {
-                throw e;
-            }
-            catch(OutOfMemoryException e)
-            {
-                throw e;
-            }
-
-            return str;
+            return _buffer[lineNr-1];
         }
 
     }
