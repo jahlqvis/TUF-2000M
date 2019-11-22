@@ -23,7 +23,7 @@ namespace TUF_2000M.Test
             bool result = false;
             result = r.ReadURL("http://tuftuf.gambitlabs.fi/feed.txt");
 
-            string str = r.GetLine(0);
+            string str = r.GetLine(1);
 
             Assert.AreEqual("2018-08-03 04:06", str);
         }

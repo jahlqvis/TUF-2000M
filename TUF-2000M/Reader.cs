@@ -28,6 +28,29 @@ namespace TUF_2000M
             return new StreamReader(new HttpClient().GetStreamAsync(fileurl).Result);
         }
 
+        public string GetLine(int lineNr)
+        {
+            string str = string.Empty;
+
+            if (_sr == StreamReader.Null)
+                return str;
+
+            try
+            {
+                for(int i=0;i<lineNr;i++)
+                    str = _sr.ReadLine();
+            }
+            catch (IOException e)
+            {
+                throw e;
+            }
+            catch(OutOfMemoryException e)
+            {
+                throw e;
+            }
+
+            return str;
+        }
 
     }
     
