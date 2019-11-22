@@ -19,4 +19,9 @@
   <ItemGroup>
     <ProjectReference Include="..\TUF-2000M\TUF-2000M.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="feed.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

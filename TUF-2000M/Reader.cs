@@ -9,6 +9,12 @@ namespace TUF_2000M
         private StreamReader _sr;
         private string[] _buffer;
 
+        public Reader(string[] mockBuffer = null)
+        {
+            if (mockBuffer != null)
+                _buffer = mockBuffer;
+
+        }
         public bool ReadURL(string url)
         {
             List<string> stringList = new List<string>();

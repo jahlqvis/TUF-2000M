@@ -33,12 +33,11 @@ namespace TUF_2000M.Test
         [DataRow(22, "21:64432")]
         [DataRow(64, "63:0")]
         [DataRow(101, "100:17503")]
-        public void TestReadUrlAndNthLine(int lineNr, string expected)
+        public void TestReadNthLine(int lineNr, string expected)
         {
-            Reader r = new Reader();
-            bool result = false;
-            result = r.ReadURL("http://tuftuf.gambitlabs.fi/feed.txt");
+            string[] mock = System.IO.File.ReadAllLines(@"feed.txt");
 
+            Reader r = new Reader(mock);
             string str = r.GetLine(lineNr);
 
             Assert.AreEqual(expected, str);
@@ -47,11 +46,11 @@ namespace TUF_2000M.Test
         [TestMethod]
         [ExpectedException(typeof(System.IO.IOException),
             "The line number was beyond EOF")]
-        public void TestReadUrlAndLineAfterEOF()
+        public void TestReadLineAfterEOF()
         {
-            Reader r = new Reader();
-            bool result = false;
-            result = r.ReadURL("http://tuftuf.gambitlabs.fi/feed.txt");
+            string[] mock = System.IO.File.ReadAllLines(@"feed.txt");
+
+            Reader r = new Reader(mock);
             string str = r.GetLine(105);
         }
 
