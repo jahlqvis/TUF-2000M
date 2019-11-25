@@ -17,6 +17,16 @@ namespace TUF_2000M.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(System.AggregateException),
+            "The URL did not work")]
+        public void TestReadBadUrl()
+        {
+            Reader r = new Reader();
+            bool result = false;
+            result = r.ReadURL("http://tuftuf.gambitlabs.fi/feed2.txt");
+        }
+
+        [TestMethod]
         public void TestReadUrlAndFirstLine()
         {
             Reader r = new Reader();
@@ -52,6 +62,18 @@ namespace TUF_2000M.Test
 
             Reader r = new Reader(mock);
             string str = r.GetLine(105);
+        }
+
+        [TestMethod]
+        public void Test2DecToReal4()
+        {
+            Reader r = new Reader();
+            ushort register1 = 63647;
+            ushort register2 = 15846;
+            var value = r.ConvertFromIntToReal4(register1, register2);
+
+            Assert.AreEqual(typeof(float), value.GetType());
+            Assert.AreEqual(1.12778894603252410888671875E-1, value);
         }
 
     }

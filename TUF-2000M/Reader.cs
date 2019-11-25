@@ -31,10 +31,15 @@ namespace TUF_2000M
 
                 _buffer = stringList.ToArray();
             }
-            catch (Exception ex)
+            catch (AggregateException e)
             {
-                throw ex;
+                throw e;
             }
+            catch(Exception e)
+            {
+                throw e;
+            }
+
             return true;
 
         }
@@ -54,6 +59,16 @@ namespace TUF_2000M
 
             return _buffer[lineNr-1];
         }
+
+        public float ConvertFromIntToReal4(ushort register1, ushort register2)
+        {
+            Int32 temp = register2;
+            temp <<= 16;
+            temp += register1;
+
+            return BitConverter.Int32BitsToSingle(temp);
+        }
+
 
     }
     
