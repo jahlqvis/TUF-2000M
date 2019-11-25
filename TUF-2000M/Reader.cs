@@ -60,7 +60,7 @@ namespace TUF_2000M
             return _buffer[lineNr-1];
         }
 
-        public float ConvertFromIntToReal4(ushort register1, ushort register2)
+        public float ConvertFromUShortToReal4(ushort register1, ushort register2)
         {
             Int32 temp = register2;
             temp <<= 16;
@@ -69,6 +69,14 @@ namespace TUF_2000M
             return BitConverter.Int32BitsToSingle(temp);
         }
 
+        public Int32 ConvertFromUShortToInt32(ushort register1, ushort register2)
+        {
+            Int32 temp = register2; 
+            temp <<= 16;
+            temp += register1; // little endian order, least significant byte firsts
+
+            return temp;
+        }
 
     }
     

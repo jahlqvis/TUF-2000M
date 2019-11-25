@@ -68,12 +68,24 @@ namespace TUF_2000M.Test
         public void Test2DecToReal4()
         {
             Reader r = new Reader();
-            ushort register1 = 63647;
-            ushort register2 = 15846;
-            var value = r.ConvertFromIntToReal4(register1, register2);
+            ushort register1 = 63647;   // register 1
+            ushort register2 = 15846;   // register 2
+            var value = r.ConvertFromUShortToReal4(register1, register2);
 
             Assert.AreEqual(typeof(float), value.GetType());
             Assert.AreEqual(1.12778894603252410888671875E-1, value);
+        }
+
+        [TestMethod]
+        public void Test2DecToLong()
+        {
+            Reader r = new Reader();
+            ushort register1 = 23;  // register 9
+            ushort register2 = 0;   // register 10
+            var value = r.ConvertFromUShortToInt32(register1, register2);
+
+            Assert.AreEqual(typeof(System.Int32), value.GetType());
+            Assert.AreEqual(23, value);
         }
 
     }
