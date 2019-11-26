@@ -88,5 +88,31 @@ namespace TUF_2000M.Test
             Assert.AreEqual(23, value);
         }
 
+        [TestMethod]
+        public void TestDecToBCD()
+        {
+            // register 53-55 (Calendar)
+           
+            Reader r = new Reader();
+            ushort register1 = 9267; 
+            ushort register2 = 775;
+            ushort register3 = 6152;
+
+            
+            int[] calendar = r.ConvertFromUShortToBCD(register1, register2, register3);
+            int[] expected = new int[6];
+
+            expected[0] = 33;   // s
+            expected[1] = 24;   // m
+            expected[2] = 07;   // h
+            expected[3] = 03;   // d
+            expected[4] = 08;   // m
+            expected[5] = 18;   // y
+
+            Assert.AreEqual(6, calendar.GetLength(0));
+            for(int i=0;i<6;i++)
+                Assert.AreEqual(expected[i], calendar[i]);
+        }
+
     }
 }
