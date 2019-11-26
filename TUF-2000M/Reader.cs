@@ -78,6 +78,45 @@ namespace TUF_2000M
             return temp;
         }
 
+        public int[] ConvertFromUShortTo6Decimals(ushort register1, ushort register2, ushort register3)
+        {
+            int[] result = new int[6];
+
+            int[] decimals;
+
+            decimals = ExtractDecimalsFromBCD(register1);
+            result[0] = decimals[0];
+            result[1] = decimals[1];
+
+            decimals = ExtractDecimalsFromBCD(register2);
+            result[2] = decimals[0];
+            result[3] = decimals[1];
+
+            decimals = ExtractDecimalsFromBCD(register3);
+            result[4] = decimals[0];
+            result[5] = decimals[1];
+
+            return result;
+        }
+
+        private static int[] ExtractDecimalsFromBCD(ushort register)
+        {
+            byte[] bytes = BitConverter.GetBytes(register);
+
+            if (bytes.Length != 2)
+                throw new ArgumentException("register should be 2 bytes");
+
+            string hexStr;
+            int[] decimals = new int[2];
+
+            hexStr = string.Format("{0:x}", bytes[0]);
+            decimals[0] = Convert.ToInt16(hexStr, 10);
+
+            hexStr = string.Format("{0:x}", bytes[1]);
+            decimals[1] = Convert.ToInt16(hexStr, 10);
+
+            return decimals;
+        }
     }
     
 }

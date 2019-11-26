@@ -99,7 +99,7 @@ namespace TUF_2000M.Test
             ushort register3 = 6152;
 
             
-            int[] calendar = r.ConvertFromUShortToBCD(register1, register2, register3);
+            int[] calendar = r.ConvertFromUShortTo6Decimals(register1, register2, register3);
             int[] expected = new int[6];
 
             expected[0] = 33;   // s
