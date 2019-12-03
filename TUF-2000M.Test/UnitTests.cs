@@ -114,5 +114,23 @@ namespace TUF_2000M.Test
                 Assert.AreEqual(expected[i], calendar[i]);
         }
 
+
+        [TestMethod]
+        public void TestParseLine()
+        {
+            string[] mock = System.IO.File.ReadAllLines(@"feed.txt");
+
+            Reader r = new Reader(mock);
+            string str = r.GetLine(100);
+
+            int value = 0;
+            int lineNr = r.ParseLine(str, ref value);
+
+            Assert.AreEqual(12816, value);
+            Assert.AreEqual(99, lineNr);
+
+        }
+
+
     }
 }
