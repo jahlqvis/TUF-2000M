@@ -10,12 +10,20 @@ namespace TUF_2000M
     {
         private StreamReader _sr;
         private string[] _buffer;
-        private VariableStorage _vs;
+        private IVariableStorage _vs;
+        private Dictionary<int, int> _dict;
+        private string dateText;
 
-        public Reader(string[] mockBuffer = null)
+        public Reader(IVariableStorage vs, string[] mockBuffer = null)
         {
+            if (vs == null)
+                throw new ArgumentException("VariableStorage object must be passed in creator");
+
+            _vs = vs;
+
             if (mockBuffer != null)
                 _buffer = mockBuffer;
+
 
         }
         public bool ReadURL(string url)
@@ -96,79 +104,54 @@ namespace TUF_2000M
             return Convert.ToInt32(s1);
         }
 
-        public float ConvertFromUShortToReal4(ushort register1, ushort register2)
+
+        /// <summary>
+        /// Put text in buffer in dictionary instead
+        /// </summary>
+        /// <returns></returns>
+        private bool SerializeBuffer()
         {
-            Int32 temp = register2;
-            temp <<= 16;
-            temp += register1;
-
-            return BitConverter.Int32BitsToSingle(temp);
-        }
-
-        public Int32 ConvertFromUShortToInt32(ushort register1, ushort register2)
-        {
-            Int32 temp = register2; 
-            temp <<= 16;
-            temp += register1; // little endian order, least significant byte firsts
-
-            return temp;
-        }
-
-        public int[] ConvertFromUShortTo6Decimals(ushort register1, ushort register2, ushort register3)
-        {
-            int[] result = new int[6];
-
-            int[] decimals;
-
-            decimals = ExtractDecimalsFromBCD(register1);
-            result[0] = decimals[0];
-            result[1] = decimals[1];
-
-            decimals = ExtractDecimalsFromBCD(register2);
-            result[2] = decimals[0];
-            result[3] = decimals[1];
-
-            decimals = ExtractDecimalsFromBCD(register3);
-            result[4] = decimals[0];
-            result[5] = decimals[1];
-
-            return result;
-        }
-
-        private static int[] ExtractDecimalsFromBCD(ushort register)
-        {
-            byte[] bytes = BitConverter.GetBytes(register);
-
-            if (bytes.Length != 2)
-                throw new ArgumentException("register should be 2 bytes");
-
-            string hexStr;
-            int[] decimals = new int[2];
-
-            hexStr = string.Format("{0:x}", bytes[0]);
-            decimals[0] = Convert.ToInt16(hexStr, 10);
-
-            hexStr = string.Format("{0:x}", bytes[1]);
-            decimals[1] = Convert.ToInt16(hexStr, 10);
-
-            return decimals;
-        }
-
-        private bool Parse()
-        {
-            _vs = new VariableStorage();
             int bufferLength = _buffer.GetLength(0);
             if (bufferLength == 0)
                 throw new SystemException("No data has been read from server!");
             if (bufferLength < 101)
                 throw new SystemException("Incomplete data read from server!");
 
-            string serial = GetLine(0);
+            _dict = new Dictionary<int, int>();
 
-            
+            dateText = GetLine(1);    
+            for (int i = 2; i < bufferLength; i++)
+            {
+                string lineText;
+                int value=0;
+                int lineNr;
+                lineText = GetLine(i);
+                lineNr = ParseLine(lineText, ref value);
+
+                _dict.Add(lineNr, value);
+            }
 
             return true;
         }
+
+        private bool InterpretDictionary()
+        {
+            _vs = new VariableStorage();
+
+            return (_vs.FillData(ref _dict));
+        }
+
+        public bool Run()
+        {
+            SerializeBuffer();
+
+            InterpretDictionary();
+
+            _vs.PrintData();
+
+            return true;
+        }
+
     }
     
 }

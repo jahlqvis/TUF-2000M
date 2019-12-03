@@ -5,4 +5,12 @@
     <RootNamespace>TUF_2000M</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Classes\" />
+    <Folder Include="Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Enums\Type.cs" />
+  </ItemGroup>
 </Project>
