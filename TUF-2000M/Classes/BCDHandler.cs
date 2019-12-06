@@ -16,6 +16,29 @@ namespace TUF_2000M
             return data;
         }
 
+        public override string ConvertDataToString()
+        {
+            if (data == null)
+                throw new SystemException($"data is null for object {name}");
+
+
+            switch(data.Length)
+            {
+                case 6:
+                    // calender case (time and date SMHDMY) 
+                    return string.Concat(data[0].ToString(), ":", data[1].ToString(), ":", data[2].ToString(), " ", data[3].ToString(), ".", data[4].ToString(), "-", data[5].ToString());
+                case 4:
+                    return string.Concat(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString());
+                case 2:
+                    return string.Concat(data[0].ToString(), data[1].ToString());
+                default:
+                    throw new SystemException("data length not supported");
+
+            }
+
+            
+        }
+
         public int[] Data { get => data; set => data = value; }
 
         public override bool ParseRegisters(params ushort[] list)
@@ -30,7 +53,9 @@ namespace TUF_2000M
             switch (list.Length)
             {
                 case 1:
-                    data = ConvertFromUShortToBCD(list[0]);
+                    i0 = ConvertFromUShortToBCD(list[0]);
+                    data = new int[i0.Length];
+                    Array.Copy(i0, data, i0.Length);
                     break;
                 case 2:
                     i0 = ConvertFromUShortToBCD(list[0]);

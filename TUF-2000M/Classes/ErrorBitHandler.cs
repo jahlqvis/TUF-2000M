@@ -17,6 +17,11 @@ namespace TUF_2000M
             return data;
         }
 
+        public override string ConvertDataToString()
+        {
+            return data.ToString();
+        }
+
         internal ErrorBit Data { get => data; set => data = value; }
 
         public override bool ParseRegisters(params ushort[] list)

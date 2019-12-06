@@ -16,6 +16,11 @@ namespace TUF_2000M
             return data;
         }
 
+        public override string ConvertDataToString()
+        {
+            return data.ToString();
+        }
+
         public int Data { get => data; set => data = value; }
 
         public override bool ParseRegisters(params ushort[] list)
@@ -41,7 +46,7 @@ namespace TUF_2000M
                 return temp;
             }
             else
-                return (Int32)registers[0];
+                return Convert.ToInt32(registers[0]);
 
 
 

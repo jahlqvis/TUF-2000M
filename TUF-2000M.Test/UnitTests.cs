@@ -146,4 +146,76 @@ namespace TUF_2000M.Test
 
 
     }
+
+    [TestClass]
+    public class RegisterExamplesTests
+    {
+        [TestMethod]
+        public void TestFlowRate_4BytesToReal()
+        {
+            RealHandler r = new RealHandler("dummy", "dummy", 1);
+            ushort register1 = 63647;   // register 1
+            ushort register2 = 15846;   // register 2
+            r.ParseRegisters(register1, register2);
+
+            var data = r.Data;
+            Assert.AreEqual(typeof(float), data.GetType());
+            Assert.AreEqual(1.12778894603252410888671875E-1, r.Data);
+        }
+
+        [TestMethod]
+        public void PositiveAccumulator_4BytesToLong()
+        {
+            LongHandler r = new LongHandler("dummy", "dummy", 1);
+            ushort register1 = 23;  // register 9
+            ushort register2 = 0;   // register 10
+            r.ParseRegisters(register1, register2);
+
+            Assert.AreEqual(typeof(System.Int32), r.Data.GetType());
+            Assert.AreEqual(23, r.Data);
+        }
+
+
+        [TestMethod]
+        public void DownstreamStrength_2BytesToLong()
+        {
+            LongHandler r = new LongHandler("dummy", "dummy", 1);
+            ushort register1 = 3477;  // register 93
+            
+            r.ParseRegisters(register1);
+
+            Assert.AreEqual(typeof(System.Int32), r.Data.GetType());
+            Assert.AreEqual(3477, r.Data);
+        }
+
+        [TestMethod]
+        public void TestCalender_6BytesBCD()
+        {
+            // register 53-55 (Calendar)
+
+            BCDHandler r = new BCDHandler("dummy", "dummy", 1);
+            ushort register1 = 9267;
+            ushort register2 = 775;
+            ushort register3 = 6152;
+
+
+            r.ParseRegisters(register1, register2, register3);
+            int[] expected = new int[6];
+
+            expected[0] = 33;   // s
+            expected[1] = 24;   // m
+            expected[2] = 07;   // h
+            expected[3] = 03;   // d
+            expected[4] = 08;   // m
+            expected[5] = 18;   // y
+
+            Assert.AreEqual(6, r.Data.Length);
+            for (int i = 0; i < 6; i++)
+                Assert.AreEqual(expected[i], r.Data[i]);
+        }
+
+
+
+    }
+
 }

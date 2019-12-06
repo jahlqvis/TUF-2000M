@@ -16,6 +16,11 @@ namespace TUF_2000M
             return data;
         }
 
+        public override string ConvertDataToString()
+        {
+            return data.ToString();
+        }
+
         public float Data { get => data; set => data = value; }
 
         public override bool ParseRegisters(params ushort[] list)

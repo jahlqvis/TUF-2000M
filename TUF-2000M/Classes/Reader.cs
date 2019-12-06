@@ -120,7 +120,7 @@ namespace TUF_2000M
             _dict = new Dictionary<int, int>();
 
             dateText = GetLine(1);    
-            for (int i = 2; i < bufferLength; i++)
+            for (int i = 2; i <= bufferLength; i++)
             {
                 string lineText;
                 int value=0;

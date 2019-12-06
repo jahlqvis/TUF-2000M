@@ -24,6 +24,8 @@ namespace TUF_2000M
 
         }
 
+        public abstract string ConvertDataToString();
+
         public abstract bool ParseRegisters(params ushort[] list);
 
         public string Name => name;
