@@ -16,23 +16,27 @@ namespace TUF_2000M
             return data;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ConvertDataToString()
         {
             if (data == null)
-                throw new SystemException($"data is null for object {name}");
+                throw new SystemException($"BCDHandler::ConvertDataToString: data is null for object {name}");
 
 
             switch(data.Length)
             {
                 case 6:
                     // calender case (time and date SMHDMY) 
-                    return string.Concat(data[0].ToString(), ":", data[1].ToString(), ":", data[2].ToString(), " ", data[3].ToString(), ".", data[4].ToString(), "-", data[5].ToString());
+                    return string.Concat(data[0].ToString("D2"), ":", data[1].ToString("D2"), ":", data[2].ToString("D2"), " ", data[3].ToString(), ".", data[4].ToString(), "-", data[5].ToString());
                 case 4:
                     return string.Concat(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString());
                 case 2:
                     return string.Concat(data[0].ToString(), data[1].ToString());
                 default:
-                    throw new SystemException("data length not supported");
+                    throw new SystemException("BCDHandler::ConvertDataToString: data length not supported (2, 4 or 6 bytes supported)");
 
             }
 
@@ -41,6 +45,12 @@ namespace TUF_2000M
 
         public int[] Data { get => data; set => data = value; }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public override bool ParseRegisters(params ushort[] list)
         {
             if (list.Length > 3 || list.Length < 1)
@@ -82,13 +92,19 @@ namespace TUF_2000M
             return true;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="register"></param>
+        /// <returns></returns>
         private int[] ConvertFromUShortToBCD(ushort register)
         {
 
             byte[] bytes = BitConverter.GetBytes(register);
 
             if (bytes.Length != 2)
-                throw new ArgumentException("ConvertFromUShortToBCD: register should have be 2 bytes");
+                throw new ArgumentException("BCDHandler::ConvertFromUShortToBCD: register should have be 2 bytes");
 
             string hexStr;
             int[] decimals = new int[bytes.Length];

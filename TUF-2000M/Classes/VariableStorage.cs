@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TUF_2000M
 {
-    public interface IVariableStorage
-    {
-        public bool FillData(ref Dictionary<int, int> dict);
-        public void PrintData();
-
-    }
-
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class VariableStorage : IVariableStorage
     {
         public ArrayList list;
@@ -51,11 +45,11 @@ namespace TUF_2000M
             list.Add(new BCDHandler("Password for hardware", "", 51, 52));
             list.Add(new BCDHandler("Calendar(date and time)", "", 53, 54, 55));
             list.Add(new BCDHandler("Day + Hour for Auto - Save", "", 56));
-            list.Add(new LongHandler("Key to input", "Writable", 59));
-            list.Add(new LongHandler("Go to Window #", "Writable", 60));
-            list.Add(new LongHandler("LCD Back - lit lights for number of seconds", "Second", 61));
-            list.Add(new LongHandler("Times for the beeper", "", 62));
-            list.Add(new LongHandler("Pulses left for OCT", "", 63));
+            list.Add(new IntHandler("Key to input", "Writable", 59));
+            list.Add(new IntHandler("Go to Window #", "Writable", 60));
+            list.Add(new IntHandler("LCD Back - lit lights for number of seconds", "Second", 61));
+            list.Add(new IntHandler("Times for the beeper", "", 62));
+            list.Add(new IntHandler("Pulses left for OCT", "", 63));
             list.Add(new ErrorBitHandler("Error Code", "", 72));
             list.Add(new RealHandler("PT100 resistance of inlet", "Ohm", 77, 78));
             list.Add(new RealHandler("PT100 resistance of outlet", "Ohm", 79, 80));
@@ -64,31 +58,48 @@ namespace TUF_2000M
             list.Add(new RealHandler("Upstream travel time", "Micro-second", 85, 86));
             list.Add(new RealHandler("Downstream travel time", "Micro-second", 87, 88));
             list.Add(new RealHandler("Output current", "mA", 89, 90));
-            list.Add(new LongHandler("Working step and Signal Quality", "", 92));
-            list.Add(new LongHandler("Upstream strength", "Range 0 - 2047", 93));
-            list.Add(new LongHandler("Downstream strength", "Range 0 - 2047", 94));
-            list.Add(new LongHandler("Language used in user interface", "0 : English，1 : Chinese", 96));
-            list.Add(new RealHandler("The rate of the measured travel time by the calculated travel time", "Normal 100+-3%", 97, 98));
+            list.Add(new UpperByteHandler("Working step", "", 92));
+            list.Add(new LowerByteHandler("Signal Quality", "Range 00 - 99", 92));
+            list.Add(new IntHandler("Upstream strength", "Range 0 - 2047", 93));
+            list.Add(new IntHandler("Downstream strength", "Range 0 - 2047", 94));
+            list.Add(new IntHandler("Language used in user interface", "0 : English，1 : Chinese", 96));
+            list.Add(new RealHandler("Rate of measured/calculated travel time", "Normal 100+-3%", 97, 98));
             list.Add(new RealHandler("Reynolds number", "", 99, 100));
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void PrintData()
         {
-            foreach(BaseHandler bh in list)
+            int counter = 0;
+            Console.WriteLine("{0,-10}{1, -60}{2, -20}{3, -10}", "Register", "Description", "Data", "Unit/Note");
+            Console.WriteLine("{0,-10}{1, -60}{2, -20}{3, -10}", "========", "===========", "====", "=========");
+            Console.WriteLine();
+
+            foreach (BaseHandler bh in list)
             {
+                counter++;
                 string data = bh.ConvertDataToString();
 
-                //if ((data.GetType() == typeof(float)) || (data.GetType() == typeof(int)))
-                Console.WriteLine($"{bh.Register1}\t{bh.Name}\t{data}\t{bh.Unit}");
+                Console.WriteLine($"{bh.Register1, -10}{bh.Name, -60}{data, -20}{bh.Unit, -10}");
 
-                
+                if(counter == 5)
+                { 
+                    Console.WriteLine();
+                    counter = 0;
+                }
+
             }
-
-            Console.Read();
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dict"></param>
+        /// <returns></returns>
         public bool FillData(ref Dictionary<int, int> dict)
         {
             int reg1value = 0;
@@ -182,7 +193,7 @@ namespace TUF_2000M
                     }
                 }
                 else
-                    throw new SystemException("Should never reach this point");
+                    throw new SystemException("VariableStorage::FillData: Should never reach this point");
             }
 
             return true;

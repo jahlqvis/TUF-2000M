@@ -1,5 +1,8 @@
 ﻿namespace TUF_2000M
 {
+    /// <summary>
+    /// 
+    /// </summary>
     enum ErrorBit
     {
         None = 0b_0000_0000_0000_0000, // 0

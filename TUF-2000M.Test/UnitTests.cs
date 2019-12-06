@@ -140,6 +140,18 @@ namespace TUF_2000M.Test
             Reader reader = new Reader(new VariableStorage(), mock);
 
             reader.Run();
+
+
+        }
+
+        [TestMethod]
+        public void TestRun2()
+        {
+            string[] mock = System.IO.File.ReadAllLines(@"feed2.txt");
+
+            Reader reader = new Reader(new VariableStorage(), mock);
+
+            reader.Run();
             
 
         }
@@ -163,6 +175,20 @@ namespace TUF_2000M.Test
             Assert.AreEqual(1.12778894603252410888671875E-1, r.Data);
         }
 
+
+        [TestMethod]
+        public void TemperatureInlet1_4BytesToReal()
+        {
+            RealHandler r = new RealHandler("dummy", "dummy", 1);
+            ushort register1 = 15568;   // register 33
+            ushort register2 = 16611;   // register 34
+            r.ParseRegisters(register1, register2);
+
+            var data = r.Data;
+            Assert.AreEqual(typeof(float), data.GetType());
+            Assert.AreEqual(7.101173400878906, r.Data);
+        }
+
         [TestMethod]
         public void PositiveAccumulator_4BytesToLong()
         {
@@ -173,6 +199,19 @@ namespace TUF_2000M.Test
 
             Assert.AreEqual(typeof(System.Int32), r.Data.GetType());
             Assert.AreEqual(23, r.Data);
+        }
+
+        [TestMethod]
+        public void NegativeAccumulator_4BytesToLong()
+        {
+            LongHandler r = new LongHandler("dummy", "dummy", 1);
+            ushort register1 = 65480;  // register 21
+            ushort register2 = 65535;   // register 22
+
+            r.ParseRegisters(register1, register2);
+
+            Assert.AreEqual(typeof(System.Int32), r.Data.GetType());
+            Assert.AreEqual(-56, r.Data);
         }
 
 

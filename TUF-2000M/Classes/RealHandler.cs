@@ -23,8 +23,15 @@ namespace TUF_2000M
 
         public float Data { get => data; set => data = value; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public override bool ParseRegisters(params ushort[] list)
         {
+            if (list.Length > 2 || list.Length < 1)
+                throw new ArgumentException("RealHandler::ParseRegisters: function parameters accepts only one or two ushorts");
 
             if (list.Length > 1)
                 data = ConvertFromUShortToReal4(list[0], list[1]);
@@ -34,11 +41,13 @@ namespace TUF_2000M
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="registers"></param>
+        /// <returns></returns>
         private float ConvertFromUShortToReal4(params ushort[] registers)
         {
-            if (registers.Length > 2 || registers.Length < 1)
-                throw new ArgumentException("ConvertFromUShortToReal4: function parameters accepts only one or two ushorts");
-
             if (registers.Length > 1)
             {
                 Int32 temp = registers[1];

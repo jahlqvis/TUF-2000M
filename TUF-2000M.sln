@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TUF-2000M", "TUF-2000M\TUF-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TUF-2000M.Test", "TUF-2000M.Test\TUF-2000M.Test.csproj", "{D2E28FFD-FAD5-4120-854B-CE2F388F7111}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TUF-2000M.Console", "TUF-2000M.Console\TUF-2000M.Console.csproj", "{79AA33C4-B4EC-49B7-A51B-B9CB57FB31D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{D2E28FFD-FAD5-4120-854B-CE2F388F7111}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2E28FFD-FAD5-4120-854B-CE2F388F7111}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2E28FFD-FAD5-4120-854B-CE2F388F7111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79AA33C4-B4EC-49B7-A51B-B9CB57FB31D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79AA33C4-B4EC-49B7-A51B-B9CB57FB31D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79AA33C4-B4EC-49B7-A51B-B9CB57FB31D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79AA33C4-B4EC-49B7-A51B-B9CB57FB31D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

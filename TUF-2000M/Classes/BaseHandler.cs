@@ -13,7 +13,15 @@ namespace TUF_2000M
 
 
         public abstract object GetData();
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="unit"></param>
+        /// <param name="register1"></param>
+        /// <param name="register2"></param>
+        /// <param name="register3"></param>
         public BaseHandler(string name, string unit, ushort register1, ushort register2=0, ushort register3=0)
         {
             this.name = name;

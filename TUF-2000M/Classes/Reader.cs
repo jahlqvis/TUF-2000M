@@ -14,6 +14,12 @@ namespace TUF_2000M
         private Dictionary<int, int> _dict;
         private string dateText;
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vs"></param>
+        /// <param name="mockBuffer"></param>
         public Reader(IVariableStorage vs, string[] mockBuffer = null)
         {
             if (vs == null)
@@ -26,6 +32,12 @@ namespace TUF_2000M
 
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public bool ReadURL(string url)
         {
             List<string> stringList = new List<string>();
@@ -55,6 +67,11 @@ namespace TUF_2000M
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileurl"></param>
+        /// <returns></returns>
         private StreamReader URLStream(String fileurl)
         {
             return new StreamReader(new HttpClient().GetStreamAsync(fileurl).Result);
@@ -94,10 +111,10 @@ namespace TUF_2000M
                     s2 = match.NextMatch().Value;
                 }
                 else
-                    throw new ArgumentException("line only contained one number");
+                    throw new ArgumentException("Reader::ParseLine: Parameter line only contained one number");
             }
             else
-                throw new ArgumentException("line did not contain any numbers");
+                throw new ArgumentException("Reader::ParseLine: Parameter line did not contain any numbers");
             
 
             Value = Convert.ToInt32(s2);
@@ -113,9 +130,9 @@ namespace TUF_2000M
         {
             int bufferLength = _buffer.GetLength(0);
             if (bufferLength == 0)
-                throw new SystemException("No data has been read from server!");
+                throw new SystemException("Reader::SerializeBuffer: No data has been read from server!");
             if (bufferLength < 101)
-                throw new SystemException("Incomplete data read from server!");
+                throw new SystemException("Reader::SerializeBuffer: Incomplete data read from server!");
 
             _dict = new Dictionary<int, int>();
 
@@ -134,6 +151,10 @@ namespace TUF_2000M
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private bool InterpretDictionary()
         {
             _vs = new VariableStorage();
@@ -141,6 +162,10 @@ namespace TUF_2000M
             return (_vs.FillData(ref _dict));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool Run()
         {
             SerializeBuffer();

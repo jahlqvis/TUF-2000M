@@ -24,10 +24,15 @@ namespace TUF_2000M
 
         internal ErrorBit Data { get => data; set => data = value; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public override bool ParseRegisters(params ushort[] list)
         {
             if (list.Length > 1)
-                throw new ArgumentException("Should be only 1 ushort");
+                throw new ArgumentException("ErrorBitHandler::ParseRegisters: Should be only 1 ushort");
 
             data = (ErrorBit)list[0];
             return true;
