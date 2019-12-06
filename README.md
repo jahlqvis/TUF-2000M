@@ -4,15 +4,15 @@ TUF-2000M is a library which retrieves and parses TUF-2000M supersonic flow mete
 
 ## Installation
 
-The software was developed and tested on a Macbook Pro (2017) with Microsoft Visual Studio 2019.
+The software was developed and tested on a Macbook Pro with Microsoft Visual Studio 2019.
 
 The software contains three projects. 
 
-TUF-2000M.Console - Console application written in .NET Core 3.0 
-TUF-2000M - a .NET Standard 2.1 library 
-TUF-2000M.Test - Contains the unit tests
+TUF-2000M.Console - Console application written in .NET Core 3.0  
+TUF-2000M - a .NET Standard 2.1 library  
+TUF-2000M.Test - Contains the unit tests . 
 
-Use Microsoft Visual Studio and compile and publish the solution, to make a native console app for you .NET standard/core compatible platform.
+Use Microsoft Visual Studio and compile and publish the solution, to make a native console app for you .NET Standard/ .NET Core compatible platform.  
 
 ## Usage
 
